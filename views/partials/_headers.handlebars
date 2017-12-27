@@ -1,0 +1,36 @@
+<nav class="grey darken-3">
+	<div class="container">
+		<div class="nav-wrapper">
+			<a class="brand-logo center" href="/stories">StoryBooks</a>
+			<a class="button-collapse show-on-large" href="#" data-activates="main-menu"><i class="fa fa-bars"></i></a>
+			{{!-- RIGHT NAV --}}
+			<ul class="right hide-on-small-only">
+				{{#if user}}
+					<li><a href="/dashboard">Welcome {{user.firstName}}</a></li>
+					<li><a href="/auth/logout"><i class="fa fa-sign-out"></i> Logout</a></li>
+				{{else}}
+					<li><a href="/stories"><i class="fa fa-book"></i> Public Stories</a></li>
+				{{/if}}
+			</ul>
+			{{!-- SIDE MENU --}}
+			<ul class="side-nav" id="main-menu">
+				
+					{{#if user}}
+						<li><a href="/auth/logout"><i class="fa fa-sign-out"></i> Logout</a></li>
+					{{else}}
+					<li>
+						<li><a class="red darken-1 btn" href="/auth/google"><i class="fa fa-google left"></i>Login With Google</a></li>
+						
+					</li>
+					{{/if}}
+					<li><a href="/stories"><i class="fa fa-book"></i> Public Stories</a></li>
+					<li class="divider"></li>
+					{{#if user}}
+					<li><a href="/dashboard"><i class="fa fa-cog"></i> Dashboard</a></li>
+					<li><a href="/stories/my"><i class="fa fa-user"></i> My Stories</a></li>
+					<li><a href="/auth/logout"><i class="fa fa-sign-out"></i> Logout</a></li>
+					{{/if}}
+			</ul>
+		</div>
+	</div>
+</nav>
