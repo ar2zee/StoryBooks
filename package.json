@@ -1,0 +1,15 @@
+{
+  "name": "storybooks",
+  "version": "1.0.0",
+  "description": "App to improve Js Skills",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "Artur Oganesyan",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.2",
+    "mongoose": "^4.13.7"
+  }
+}
