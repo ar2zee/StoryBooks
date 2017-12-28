@@ -8,7 +8,10 @@ router.get('/google', passport.authenticate('google', {
 }));
 
 router.get('/google/callback',
-	passport.authenticate('google', { failureRefirect: '/'}), (req, res) => {
+	passport.authenticate('google',
+		{ failureRefirect: '/'}),
+		 (req, res) => {
+		 req.flash('success_msg', 'You are logged in!');
 		res.redirect('/dashboard');
 	});
 
@@ -22,6 +25,7 @@ router.get('/verify', (req, res) => {
 
 router.get('/logout', (req, res) => {
 	req.logout();
+	req.flash('success_msg', 'You are logged out!');
 	res.redirect('/');
 });
 

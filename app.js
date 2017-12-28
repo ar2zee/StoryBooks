@@ -1,6 +1,8 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
+const flash = require('connect-flash');
+const methodOverride = require('method-override');
 const exphbs = require('express-handlebars');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
@@ -23,7 +25,7 @@ const stories = require('./routes/stories')
 const keys = require('./config/keys')
 
 // Handlebars helpers
-	const { truncate, stripTags } = require('./helpers/hbs')
+	const { truncate, stripTags, formatDate, select, editIcon } = require('./helpers/hbs')
 
 //Map global Promises
 mongoose.Promise = global.Promise;
@@ -40,12 +42,17 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false}));
 app.use(bodyParser.json());
 
+//Method override MiddleWare
+app.use(methodOverride('_method'))
 
 // Handlebars Middleware
 app.engine('handlebars', exphbs({
 	helpers: {
 		truncate: truncate,
-		stripTags: stripTags 
+		stripTags: stripTags,
+		formatDate: formatDate,
+		select: select,
+		editIcon: editIcon
 	},
 	defaultLayout: 'main'
 }))
@@ -62,8 +69,13 @@ app.use(session ({
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use(flash());
+
 //Set Global Vars
 app.use((req, res, next) => {
+	res.locals.success_msg = req.flash('success_msg');
+	res.locals.error_msg = req.flash('error_msg');
+	res.locals.error = req.flash('error');
 	res.locals.user = req.user || null;
 	next();
 })
