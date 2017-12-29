@@ -171,6 +171,8 @@ router.delete('/:id', (req, res) => {
 	})
 });
 
+
+
 //Add comment
 router.post('/comment/:id' , (req , res) => {
 	Story.findOne({
@@ -181,24 +183,30 @@ router.post('/comment/:id' , (req , res) => {
 			commentBody: req.body.commentBody,
 			commentUser: req.user.id
 		}
-
+		if(req.body.commentBody.length < 1) {
+			req.flash('success_msg', 'Comments Empty!')
+			res.redirect(`/stories/show/${story.id}`)
+		} else {
 		//Push to comments array
 		story.comments.unshift(newComment);
 
 		story.save()
 		.then(story => {
+			req.flash('success_msg', 'Comments Added!')
 			res.redirect(`/stories/show/${story.id}`)
 		})
+	}	
 	});
+
 })
 
-router.delete('/comment/:id' , (req , res) => {
+router.delete('/comment/:id' , ensureAuthenticated, (req , res) => {	
 	Story.update( { }, { $pull: { comments: { _id: req.params.id }}}, { multi: true } )
-
 	.then((story) => {
 		req.flash('success_msg', 'Comments Removed!')
-		res.redirect(`/dashboard`)
+		res.redirect(req.get('referer'));
 	})
+	
 })
 
 

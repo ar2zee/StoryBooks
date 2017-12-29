@@ -25,7 +25,11 @@ const stories = require('./routes/stories')
 const keys = require('./config/keys')
 
 // Handlebars helpers
-	const { truncate, stripTags, formatDate, select, editIcon } = require('./helpers/hbs')
+	const { truncate, 
+		stripTags, 
+		formatDate, 
+		select, 
+		editIcon } = require('./helpers/hbs')
 
 //Map global Promises
 mongoose.Promise = global.Promise;

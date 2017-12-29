@@ -39,10 +39,17 @@
 					</div>
 					<br>
 					<small>Posted: {{formatDate commentDate 'MMMM Do YYYY'}}</small>
-						<form action="/stories/comment/{{id}}?_method=DELETE" method="post">
-							<input type="hidden" name="_method" value="DELETE">
-							<button type="submit" class="btn red"><i class="fa fa-remove"></i>DELETE</button>
-						</form>
+						{{#if ../user}}
+
+				<form action="/stories/comment/{{id}}?_method=DELETE" method="post">
+				<input type="hidden" name="_method" value="DELETE">
+				<button type="submit" class="btn red"><i class="fa fa-remove"></i>DELETE</button>
+				</form>
+
+							{{else}}
+
+						{{/if}}
+						
 				</div>
 			</div>
 			{{/each}}
