@@ -192,15 +192,33 @@ router.post('/comment/:id' , (req , res) => {
 	});
 })
 
-router.delete('/comment/:id', (req, res) => {
-	Story.remove({
-		_id: req.body.id.comments
+router.delete('/comment/:id' , (req , res) => {
+	console.log(req.params.id)
+	Story.update( { }, { $pull: { comments: { _id: req.params.id }}}, { multi: true } )
+
+	.then((story) => {
+		req.flash('success_msg', 'Comments Removed!')
+		res.redirect(`/dashboard`)
 	})
-	.then(() => {
-		req.flash('success_msg', 'Comments Removed!');
-		res.redirect('/dashboard');
-	})
-});
+})
+	// Story.update( {_id: req.params.id}, { $pull: {id: [req.params.id] } } )
+	// Story.update( { }, { $pull: { comments: { _id: req.params.id }}}, { multi: true } )
+//////////
+// router.delete("/comment/:id", function(req,res){
+   
+//    //Run a find and update query to delete the comment
+//    Story.findOne({_id: req.params.id}, function(err,doc){
+//    	console.log(req.params.id)
+//       if(doc && !err){
+//          doc.comments = doc.comments.filter(function(comment){
+//             //This will filter out the comment you want to delete
+//             return comment._id != req.body.commentId
+//             console.log(req.body.commentId);
+//          })
+//       }
+//       res.redirect("/dashboard")
+//    })
+// });
 
 
 module.exports = router;
